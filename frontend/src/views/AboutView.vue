@@ -5,7 +5,7 @@
     <div class="col-9">
       <div class="mt-3 p-6 border border-2 rounded-4">
         <div class="m-4">
-        <editor-content :editor="editor" />
+        <editor-content :editor="editor" v-model="contents"/>
         </div>
       </div>
     </div>
@@ -16,6 +16,8 @@
         </div>
       </div>
     </div>
+
+    <pre>{{ contents }}</pre>
 </div>
 </template>
 
@@ -31,12 +33,15 @@ interface AnnotationData {
 }
 
 const editor = ref<Editor | null>(null)
-
-
+const contents = ref<string>('<p>I’m running Tiptap with Vue.js. 🎉</p>');
 
 onMounted(() => {
   editor.value = new Editor({
-    content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+    content: contents.value,
+      onUpdate: () => {
+        contents.value = editor.value?.getHTML() || '';
+      },
+
     extensions: [
       StarterKit,
       AnnotationMagic<AnnotationData>().configure({
