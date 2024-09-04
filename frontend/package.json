@@ -1,0 +1,65 @@
+{
+  "name": "kids24-team51",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "^3.8.3",
+    "prosemirror-dropcursor": "^1.8.1",
+    "prosemirror-example-setup": "^1.2.3",
+    "prosemirror-gapcursor": "^1.3.2",
+    "prosemirror-history": "^1.4.1",
+    "prosemirror-inputrules": "^1.4.0",
+    "prosemirror-keymap": "^1.2.2",
+    "prosemirror-schema-list": "^1.4.1",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-typescript": "^9.1.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "prosemirror-commands": "^1.6.0",
+    "prosemirror-menu": "^1.2.4",
+    "prosemirror-model": "^1.22.3",
+    "prosemirror-schema-basic": "^1.2.3",
+    "prosemirror-state": "^1.4.3",
+    "prosemirror-view": "^1.34.2",
+    "typescript": "~4.5.5"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "@vue/typescript/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
+    "rules": {
+      "prefer-const": "off",
+      "no-console": "off",
+      "no-debugger": "off"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}
