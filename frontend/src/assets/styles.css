@@ -1,0 +1,62 @@
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
+
+
+.annotation-base {
+  display: inline;
+  position: relative;
+  padding: 1px;
+  background-color: yellow !important;
+}
+
+.fragment-middle {
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  margin-left: -2px;
+  margin-right: -2px;
+}
+
+.fragment-left {
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-radius: 5px 0px 0px 5px;
+  -webkit-border-radius: 5px 0px 0px 5px;
+  -moz-border-radius: 5px 0px 0px 5px;
+  margin-right: -2px;
+}
+
+.fragment-right {
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  border-right: 2px solid #000000;
+  border-radius: 0px 5px 5px 0px;
+  -webkit-border-radius: 0px 5px 5px 0px;
+  -moz-border-radius: 0px 5px 5px 0px;
+  margin-left: -2px;
+}
+
+.annotation-normal {
+  border: 2px solid #000000 !important;
+  border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  z-index: 10;
+}

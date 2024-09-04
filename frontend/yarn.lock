@@ -1183,7 +1183,7 @@
   resolved "https://registry.yarnpkg.com/@soda/get-current-script/-/get-current-script-1.0.2.tgz#a53515db25d8038374381b73af20bb4f2e508d87"
   integrity sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==
 
-"@tiptap/core@^2.6.6":
+"@tiptap/core@^2.1.7", "@tiptap/core@^2.6.6":
   version "2.6.6"
   resolved "https://registry.yarnpkg.com/@tiptap/core/-/core-2.6.6.tgz#34edc749dece70e99231b669582b92afae1c3ec8"
   integrity sha512-VO5qTsjt6rwworkuo0s5AqYMfDA0ZwiTiH6FHKFSu2G/6sS7HKcc/LjPq+5Legzps4QYdBDl3W28wGsGuS1GdQ==
@@ -1292,7 +1292,7 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-text/-/extension-text-2.6.6.tgz#8851aa57e4fcd2194968dc64f5f5599ad858dbfa"
   integrity sha512-e84uILnRzNzcwK1DVQNpXVmBG1Cq3BJipTOIDl1LHifOok7MBjhI/X+/NR0bd3N2t6gmDTWi63+4GuJ5EeDmsg==
 
-"@tiptap/pm@^2.6.6":
+"@tiptap/pm@^2.1.7", "@tiptap/pm@^2.6.6":
   version "2.6.6"
   resolved "https://registry.yarnpkg.com/@tiptap/pm/-/pm-2.6.6.tgz#8ce1956f7fb0e222cc9399bffc81349c6b23bbc0"
   integrity sha512-56FGLPn3fwwUlIbLs+BO21bYfyqP9fKyZQbQyY0zWwA/AG2kOwoXaRn7FOVbjP6CylyWpFJnpRRmgn694QKHEg==
@@ -6341,6 +6341,14 @@ tippy.js@^6.3.7:
   integrity sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==
   dependencies:
     "@popperjs/core" "^2.9.0"
+
+tiptap-annotation-magic@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tiptap-annotation-magic/-/tiptap-annotation-magic-2.0.0.tgz#b1592465ba101483d0a8c4f11722ea5d4d97b414"
+  integrity sha512-ITkdwfqV95oTkmLjynxwOveZp4uVdYSfDeCmOcIUfWdj8UW+9UIjTw/m7tsmiAuNX5+elXZfX+54ZoziJtccqQ==
+  dependencies:
+    "@tiptap/core" "^2.1.7"
+    "@tiptap/pm" "^2.1.7"
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
