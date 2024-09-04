@@ -8,6 +8,7 @@
 </template>
 
 <script>
+/*
 import { EditorState, Plugin } from "prosemirror-state";
 import { history } from "prosemirror-history";
 import { EditorView } from "prosemirror-view";
@@ -137,6 +138,7 @@ function insertSection(type) {
     },
   },
 };
+*/
 
 </script>
 
@@ -165,4 +167,3 @@ section > title {
   display: block;
 }
 </style>
-../lib/editor-menubar.js
