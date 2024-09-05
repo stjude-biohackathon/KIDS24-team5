@@ -37,7 +37,7 @@ const editor = ref<Editor | null>(null)
 const contents = ref<string>('<p>I’m running Tiptap with Vue.js. 🎉</p>')
 
 onMounted(() => {
-  submitChat('Why is the sky blue?').then((response) => {
+  submitChat('Hello').then((response) => {
     console.log('response was', response)
   })
 

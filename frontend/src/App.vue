@@ -1,6 +1,23 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+
+// listen for the llmLoading event and show a spinner
+const loading = ref(false)
+
+// add onMounting
+onMounted(() => {
+  console.log('App is mounted')
+
+  // add listen for window
+  window.addEventListener('llmLoading', () => {
+    loading.value = true
+  })
+  window.addEventListener('llmLoaded', () => {
+    loading.value = false
+  })
+})
 </script>
 
 <template>
@@ -8,7 +25,9 @@ import HelloWorld from './components/HelloWorld.vue'
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <div class="spinner-grow" style="width: 3rem; height: 3rem" role="status" v-if="loading">
+        <span class="sr-only">Loading...</span>
+      </div>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
