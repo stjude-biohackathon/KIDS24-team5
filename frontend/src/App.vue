@@ -19,10 +19,6 @@ onMounted(() => {
 
 <template>
   <header>
-    <div class="image-container">
-      <img alt="Vue logo" class="logo" src="@/assets/rev3-logo.webp" width="400" height="400" />
-    </div>
-
     <div v-if="loading" class="backdrop">
       <div class="spinner-container">
         <div class="spinner-grow bg-primary" style="width: 6rem; height: 6rem" role="status">
@@ -30,16 +26,14 @@ onMounted(() => {
         </div>
       </div>
     </div>
-
-    <nav>
-      <RouterLink to="/submit-manuscript">About</RouterLink>
-    </nav>
   </header>
 
-  <RouterView />
+  <div class="container">
+    <RouterView />
+  </div>
 </template>
 
-<style>
+<style scoped>
 .backdrop {
   position: absolute;
   top: 0;
@@ -61,6 +55,7 @@ onMounted(() => {
 
 .image-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh; /* Full viewport height */
@@ -69,5 +64,6 @@ onMounted(() => {
 .logo {
   max-width: 100%;
   height: auto;
+  margin-bottom: 20px; /* Add some space between the image and the button */
 }
 </style>
