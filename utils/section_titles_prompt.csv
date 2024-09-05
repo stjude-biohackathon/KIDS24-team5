@@ -1,0 +1,8 @@
+prompt,text,response
+"Here, is my entire manuscript. Can you check whether I have the following sections - Abstract, Introduction, Results, Discussion, Methods","Abstract, Introduction, Results, Discussion, Data and Methods, Methods","```
+{
+  ""titles_present"": [""Abstract"", ""Introduction"", ""Results"", ""Discussion""],
+  ""titles_missing"": [""Data and Methods""],
+  ""comment"": ""The manuscript seems to be mostly complete. However, the section 'Data and Methods' is missing.""
+}
+```"
