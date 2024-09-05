@@ -1,6 +1,6 @@
 <template>
   <button class="btn btn-primary" @click="addAnnotation">Add annotation</button>
-
+  <button class="btn btn-secondary" @click="getAnswer">Get Answer</button>
   <div class="row">
     <div class="col-9">
       <div class="mt-3 p-6 border border-2 rounded-4">
@@ -31,7 +31,7 @@ interface AnnotationData {
 }
 
 const editor = ref<Editor | null>(null)
-
+  const ollamaWrapper = new OllamaWrapper('http://127.0.0.1:11434', 'llama3.1')
 
 
 onMounted(() => {
@@ -68,6 +68,8 @@ function addAnnotation() {
           .focus()
           .addAnnotation({ name: 'tes123t', magicNumber: 1 })
           .run()
+         
 
 }
+
 </script>
