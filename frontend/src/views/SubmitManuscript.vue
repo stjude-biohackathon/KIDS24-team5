@@ -1,4 +1,13 @@
 <template>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active"><a class="active" href="#">1. Submit</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="#">2. Outline</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="#">3. Paragraph</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="#">4. Connectivity</a></li>
+    </ol>
+  </nav>
+
   <div class="row">
     <div class="col-9">
       <div class="mt-3 p-6 border border-2 rounded-4">
@@ -18,9 +27,15 @@
         </div>
       </div>
     </div>
-    sdfasdf
-    <pre>{{ contents }}</pre>
   </div>
+
+  <ul class="nav nav-wizard">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">Profile</a></li>
+    <li><a href="#">Messages</a></li>
+  </ul>
+
+  <hr />
 </template>
 
 <script setup lang="ts">
@@ -29,6 +44,10 @@ import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import { marked } from 'marked'
 import TurndownService from 'turndown'
+import { useManuscriptStore } from '../stores/manuscript'
+
+const store = useManuscriptStore()
+const { hierarchy, updateHierarchy } = store
 
 const editor = ref<Editor | null>(null)
 const contents = ref<string>(
@@ -64,22 +83,142 @@ function submitMs() {
   let currentHeading = null
 
   for (const token of tokens) {
-    if (token.type === 'heading') {
+    if (token.type === 'heading' && token.depth == 1) {
       // Create a new heading object
       currentHeading = { heading: token.text, paragraphs: [] }
       hierarchy.push(currentHeading)
-    } else if (token.type === 'paragraph' && currentHeading) {
+    } else if ((token.type === 'paragraph' || token.type == 'heading') && currentHeading) {
       // Add paragraph to the current heading
       currentHeading.paragraphs.push(token.text)
     }
   }
 
-  console.log('hierarchy', hierarchy)
+  // set the store
+  updateHierarchy(hierarchy)
+
+  // go to the next page
+  router.push('/submit-ms/abstract')
 }
 </script>
 
 <style>
 div.tiptap {
   min-height: 400px;
+}
+
+.nav-wizard > li {
+  float: left;
+}
+.nav-wizard > li > a {
+  position: relative;
+  background-color: #eeeeee;
+}
+.nav-wizard > li > a .badge {
+  margin-left: 3px;
+  color: #eeeeee;
+  background-color: #428bca;
+}
+.nav-wizard > li:not(:first-child) > a {
+  padding-left: 34px;
+}
+.nav-wizard > li:not(:first-child) > a:before {
+  width: 0px;
+  height: 0px;
+  border-top: 20px inset transparent;
+  border-bottom: 20px inset transparent;
+  border-left: 20px solid #ffffff;
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+}
+.nav-wizard > li:not(:last-child) > a {
+  margin-right: 6px;
+}
+.nav-wizard > li:not(:last-child) > a:after {
+  width: 0px;
+  height: 0px;
+  border-top: 20px inset transparent;
+  border-bottom: 20px inset transparent;
+  border-left: 20px solid #eeeeee;
+  position: absolute;
+  content: '';
+  top: 0;
+  right: -20px;
+  z-index: 2;
+}
+.nav-wizard > li:first-child > a {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.nav-wizard > li:last-child > a {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.nav-wizard > li.done:hover > a,
+.nav-wizard > li:hover > a {
+  background-color: #d5d5d5;
+}
+.nav-wizard > li.done:hover > a:before,
+.nav-wizard > li:hover > a:before {
+  border-right-color: #d5d5d5;
+}
+.nav-wizard > li.done:hover > a:after,
+.nav-wizard > li:hover > a:after {
+  border-left-color: #d5d5d5;
+}
+.nav-wizard > li.done > a {
+  background-color: #e2e2e2;
+}
+.nav-wizard > li.done > a:before {
+  border-right-color: #e2e2e2;
+}
+.nav-wizard > li.done > a:after {
+  border-left-color: #e2e2e2;
+}
+.nav-wizard > li.active > a,
+.nav-wizard > li.active > a:hover,
+.nav-wizard > li.active > a:focus {
+  color: #ffffff;
+  background-color: #428bca;
+}
+.nav-wizard > li.active > a:after {
+  border-left-color: #428bca;
+}
+.nav-wizard > li.active > a .badge {
+  color: #428bca;
+  background-color: #ffffff;
+}
+.nav-wizard > li.disabled > a {
+  color: #777777;
+}
+.nav-wizard > li.disabled > a:hover,
+.nav-wizard > li.disabled > a:focus {
+  color: #777777;
+  text-decoration: none;
+  background-color: #eeeeee;
+  cursor: default;
+}
+.nav-wizard > li.disabled > a:before {
+  border-right-color: #eeeeee;
+}
+.nav-wizard > li.disabled > a:after {
+  border-left-color: #eeeeee;
+}
+.nav-wizard.nav-justified > li {
+  float: none;
+}
+.nav-wizard.nav-justified > li > a {
+  padding: 10px 15px;
+}
+@media (max-width: 768px) {
+  .nav-wizard.nav-justified > li > a {
+    border-radius: 4px;
+    margin-right: 0;
+  }
+  .nav-wizard.nav-justified > li > a:before,
+  .nav-wizard.nav-justified > li > a:after {
+    border: none !important;
+  }
 }
 </style>
