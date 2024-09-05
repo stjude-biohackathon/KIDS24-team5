@@ -33,12 +33,9 @@ interface AnnotationData {
 }
 
 const editor = ref<Editor | null>(null)
-<<<<<<< HEAD
-  const ollamaWrapper = new OllamaWrapper('http://127.0.0.1:11434', 'llama3.1')
+const ollamaWrapper = new OllamaWrapper('http://127.0.0.1:11434', 'llama3.1')
 
-=======
 const contents = ref<string>('<p>I’m running Tiptap with Vue.js. 🎉</p>');
->>>>>>> 31f363ad428e6d0220974700553f44ff4242873f
 
 onMounted(() => {
   editor.value = new Editor({
