@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-
+    sdfasdf
     <pre>{{ contents }}</pre>
   </div>
 </template>
@@ -27,7 +27,8 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
-import markdownit from 'markdown-it'
+import { marked } from 'marked'
+import TurndownService from 'turndown'
 
 const editor = ref<Editor | null>(null)
 const contents = ref<string>(
@@ -48,8 +49,6 @@ onBeforeUnmount(() => {
   editor.value?.destroy()
 })
 
-import TurndownService from 'turndown'
-
 function submitMs() {
   // convert to the Markdown format
   var turndownService = new TurndownService()
@@ -57,10 +56,25 @@ function submitMs() {
 
   console.log('markdown_contents', markdown_contents)
 
-  const md = markdownit()
-  const result = md.parse(markdown_contents)
+  const lexer = new marked.Lexer()
+  const tokens = lexer.lex(markdown_contents)
+  console.log('parse', tokens)
 
-  console.log('parse results', result)
+  const hierarchy = []
+  let currentHeading = null
+
+  for (const token of tokens) {
+    if (token.type === 'heading') {
+      // Create a new heading object
+      currentHeading = { heading: token.text, paragraphs: [] }
+      hierarchy.push(currentHeading)
+    } else if (token.type === 'paragraph' && currentHeading) {
+      // Add paragraph to the current heading
+      currentHeading.paragraphs.push(token.text)
+    }
+  }
+
+  console.log('hierarchy', hierarchy)
 }
 </script>
 
