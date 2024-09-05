@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 
 // listen for the llmLoading event and show a spinner
 const loading = ref(false)
 
 // add onMounting
 onMounted(() => {
-  console.log('App is mounted')
-
   // add listen for window
   window.addEventListener('llmLoading', () => {
     loading.value = true
@@ -22,83 +19,55 @@ onMounted(() => {
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <div class="spinner-grow" style="width: 3rem; height: 3rem" role="status" v-if="loading">
-        <span class="sr-only">Loading...</span>
-      </div>
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+    <div class="image-container">
+      <img alt="Vue logo" class="logo" src="@/assets/rev3-logo.webp" width="400" height="400" />
     </div>
+
+    <div v-if="loading" class="backdrop">
+      <div class="spinner-container">
+        <div class="spinner-grow bg-primary" style="width: 6rem; height: 6rem" role="status">
+          <span class="d-none">Loading...</span>
+        </div>
+      </div>
+    </div>
+
+    <nav>
+      <RouterLink to="/submit-manuscript">About</RouterLink>
+    </nav>
   </header>
 
   <RouterView />
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<style>
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 99%;
+  height: 99%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
 }
 
 .logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+  max-width: 100%;
+  height: auto;
 }
 </style>
