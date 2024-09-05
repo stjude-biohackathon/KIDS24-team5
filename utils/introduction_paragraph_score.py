@@ -5,6 +5,10 @@ import pandas as pd
 import time
 import json
 from tqdm import tqdm
+import sys
+
+# To run the script 
+# python utils/introduction_paragraph_score.py intro_score_prompts.csv
 
 # Define API endpoints
 answer_api = 'http://40.124.104.197/api/generate/'
@@ -32,7 +36,7 @@ def read_csv_file(file_path):
 	return data
 
 # run api call for each row in the csv file
-def run_api_calls(data):
+def run_api_calls(data, file_name):
 	for i in tqdm(range(len(data))):
 		# get the data from the row
 		labels = data.iloc[i]
@@ -44,7 +48,7 @@ def run_api_calls(data):
 		i += 1
 		answer_prompt = {
 			"model": 'llama3.1:latest',
-			"prompt": 'answer the question: ' + prompt + ' ```' + text + '```',
+			"prompt": 'answer the question and respond in with this json format {"score" :number, "comment" :text} where scores can be number from 1 to 5 and comment can be text with less than 200 words: ' + prompt + ' ```' + text + '```',
 			"stream": False,
 			"sytem": 'given the following context: ```' + context + '```',
 			"options": {
@@ -58,7 +62,7 @@ def run_api_calls(data):
 		response = query_api(answer_api, answer_prompt).get('response', '')
 		# print(response)
 		# Save the response to a json file
-		result_file = 'utils/answers.json'
+		result_file = 'utils/' + file_name + '.json'
 		results = { "prompt": prompt, "text": text, "context": context, "response": response }
 		# check if the directory exists
 		if os.path.exists(result_file):
@@ -72,13 +76,13 @@ def run_api_calls(data):
 				json.dump([results], f, indent=4)
 
 # convert json to csv
-def json_to_csv():
+def json_to_csv(file_name):
 	# read the json file
-	file_path = 'utils/answers.json'
+	file_path = 'utils/'+ file_name + '.json'
 	with open(file_path, 'r', encoding='utf-8') as file:
 		data = json.load(file)
 	# write to csv file
-	csv_file = 'utils/answers.csv'
+	csv_file = 'utils/' + file_name + '.csv'
 	with open(csv_file, 'w', encoding='utf-8') as file:
 		writer = csv.writer(file)
 		# write the header
@@ -88,14 +92,21 @@ def json_to_csv():
 			writer.writerow([row['prompt'], row['text'], row['context'], row['response']])
 
 # main function
+
 def main():
+
+	args = sys.argv
+	if len(args) < 2:
+		print("Please provide the path to the csv file")
+		return
+	file_path = 'utils/' + args[1]
 	# read the csv file
-	file_path = 'utils/prompt_seq.csv'
 	data = read_csv_file(file_path)
 	# run api calls
-	run_api_calls(data)
+	file_name = args[1].split('.')[0]
+	run_api_calls(data, file_name)
 	# convert json to csv
-	json_to_csv()
+	json_to_csv(file_name)
 
 if __name__ == '__main__':
 	main()
