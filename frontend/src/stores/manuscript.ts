@@ -9,6 +9,12 @@ export const useManuscriptStore = defineStore('manuscript', {
     updateHierarchy(newHierarchy) {
       this.hierarchy = newHierarchy
     },
+    updateSectionSuggestions(heading, suggestions) {
+      const section = this.hierarchy.find((section) => section.heading === heading)
+      if (section) {
+        section.suggestions = suggestions
+      }
+    },
     updateParagraphSuggestions(heading, suggestions) {
       const section = this.hierarchy.find((section) => section.heading === heading)
       if (section) {

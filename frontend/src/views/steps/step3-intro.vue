@@ -118,13 +118,11 @@ for (let index = 0; index < intro_paragraphs.length; index++) {
   const paragraph = intro_paragraphs[index]
   let system_prompt = prompt.system_prompt
   let user_prompt = prompt.prompt + '```' + paragraph + '```'
-  /*
   submitChat(user_prompt, system_prompt, full_intro_paragraph).then((response) => {
     // Update the paragraph_suggestions in the store
     introduction.paragraph_suggestions[index] = JSON.parse(response)
     manuscriptStore.updateParagraphSuggestions('Introduction', introduction.paragraph_suggestions)
   })
-    */
 }
 
 // also get the entire intro rating.
