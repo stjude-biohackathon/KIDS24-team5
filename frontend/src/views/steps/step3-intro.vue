@@ -104,6 +104,8 @@ for (let index = 0; index < intro_paragraphs.length; index++) {
   })
 }
 
+// also get the entire intro rating.
+
 // Track the current slide index
 const currentSlide = ref(0)
 
