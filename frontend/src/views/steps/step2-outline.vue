@@ -46,6 +46,28 @@ const isOrderCorrect = computed(() => {
   const headings = hierarchy.value.map((section) => section.heading)
   return JSON.stringify(headings) === JSON.stringify(requiredHeadings)
 })
+
+import { prompts } from '@/lib/prompts'
+import submitChat from '@/lib/ollama-client'
+
+  let intro_paragraphs = hierarchy.value.find((section) => section.heading === 'Introduction')?.paragraphs
+
+  console.log(intro_paragraphs)
+  let score_prompts = prompts.filter((prompt) => prompt.tag === 'score')
+
+  // combine all paragraphs into one intro paragraph
+  let intro_paragraph = intro_paragraphs.join(' ')
+
+   for (let index = 0; index < intro_paragraphs.length; index++) {
+      const prompt = score_prompts[index]
+      const paragraph = intro_paragraphs[index]
+        let system_prompt = prompt.system_prompt
+        let user_prompt = prompt.prompt + '```' + paragraph + '```'
+        submitChat(user_prompt, system_prompt, intro_paragraph).then((response) => {
+          console.log('question: ', prompt.prompt)
+          console.log(response)
+        })
+      }
 </script>
 
 <style>
