@@ -21,7 +21,12 @@
       </p>
       <p v-else class="text-danger"><i class="bi bi-x-circle-fill"></i> The order is incorrect.</p>
     </div>
+    <div class="pagination-buttons mt-4">
+      <a href="" class="btn btn-primary previous"> Previous</a>
+      <a href="" class="btn btn-primary next"> Next</a>
+    </div>
   </div>
+
 </template>
 
 <script setup>
