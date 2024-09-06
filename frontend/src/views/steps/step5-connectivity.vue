@@ -1,9 +1,30 @@
+<template>
+  <div class="container mt-4">
+    <h1 class="text-center">Connectivity</h1>
+    <div class="card w-70 p-3 py-1">
+      <div class="card-body pb-0">
+        <div class="card-text">
+          <pre>
+            {{ introduction.paragraph_connectivity_suggestions }}
+          </pre>
+        </div>
+      </div>
+    </div>
+    <div class="pagination-buttons mt-4">
+      <RouterLink to="/submit-ms/3-intro" class="btn btn-primary previous"> Previous</RouterLink>
+      <RouterLink to="/submit-ms/5-connectivity" class="btn btn-primary next"> Next</RouterLink>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useManuscriptStore } from '@/stores/manuscript'
 import { prompts } from '@/lib/prompts'
-// import submitChat from '@/lib/ollama-client'
-// import getDistances from '@/lib/ollama-embeddings'
+import submitChat from '@/lib/ollama-client'
+import getDistances from '@/lib/ollama-embeddings'
+
+const manuscriptStore = useManuscriptStore()
 
 const hierarchy = computed(() => manuscriptStore.hierarchy)
 

@@ -2,9 +2,13 @@
   <div class="container mt-4">
     <h1 class="text-center">Introduction <br /></h1>
     <h4 class="text-center">
-      (paragraph {{ currentSlide + 1 }} out of {{ intro_paragraphs.length }})
-    </h4>
-    <div
+      <template v-if="currentSlide >= intro_paragraphs.length">
+        Overall review
+      </template>
+      <template v-else>
+        (paragraph {{ currentSlide + 1 }} out of {{ intro_paragraphs.length }})
+      </template>
+    </h4>    <div
       id="introCarousel"
       class="carousel carousel-dark slide"
       data-bs-interval="false"
@@ -56,10 +60,6 @@
                 <p class="card-text">
                   <div v-html="full_intro_paragraph_highlighted">
                   </div>
-
-                  <pre>
-                    {{ introduction.suggestions }}
-                  </pre>
                 </p>
               </div>
             </div>
@@ -139,11 +139,11 @@ for (let index = 0; index < intro_paragraphs.length; index++) {
   const paragraph = intro_paragraphs[index]
   let system_prompt = prompt.system_prompt
   let user_prompt = prompt.prompt + '```' + paragraph + '```'
-  submitChat(user_prompt, system_prompt, full_intro_paragraph).then((response) => {
+  /*submitChat(user_prompt, system_prompt, full_intro_paragraph).then((response) => {
     // Update the paragraph_suggestions in the store
     introduction.paragraph_suggestions[index] = JSON.parse(response)
     manuscriptStore.updateParagraphSuggestions('Introduction', introduction.paragraph_suggestions)
-  })
+  })*/
 }
 
 // also get the entire intro rating.
