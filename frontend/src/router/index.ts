@@ -32,6 +32,11 @@ const router = createRouter({
           name: '3-intro',
           path: '3-intro', // Adjusted path
           component: () => import('../views/steps/step3-intro.vue')
+        },
+        {
+          name: '4-discussion',
+          path: '4-discussion', // Adjusted path
+          component: () => import('../views/steps/step4-discussion.vue')
         }
       ]
     }
