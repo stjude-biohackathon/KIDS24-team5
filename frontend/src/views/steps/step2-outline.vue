@@ -50,20 +50,6 @@ import submitChat from '@/lib/ollama-client'
   console.log(intro_paragraphs)
   let score_prompts = prompts.filter((prompt) => prompt.tag === 'score')
 
-  // for (const prompt of score_prompts) {
-
-  //     // submit the paragraphs to the chatbot
-  //     for (const paragraph of intro_paragraphs) {
-  //       let system_prompt = prompt.system_prompt
-  //       let user_prompt = prompt.prompt + paragraph
-  //       submitChat(user_prompt, system_prompt).then((response) => {
-  //         console.log('question: ', prompt.prompt)
-  //         console.log('paragraph: ', paragraph)
-  //         console.log(response)
-  //       })
-  //     }
-  // }
-
   // combine all paragraphs into one intro paragraph
   let intro_paragraph = intro_paragraphs.join(' ')
 
