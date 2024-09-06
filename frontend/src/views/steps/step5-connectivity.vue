@@ -21,8 +21,10 @@
 import { ref, computed, onMounted } from 'vue'
 import { useManuscriptStore } from '@/stores/manuscript'
 import { prompts } from '@/lib/prompts'
-// import submitChat from '@/lib/ollama-client'
-// import getDistances from '@/lib/ollama-embeddings'
+import submitChat from '@/lib/ollama-client'
+import getDistances from '@/lib/ollama-embeddings'
+
+const manuscriptStore = useManuscriptStore()
 
 const hierarchy = computed(() => manuscriptStore.hierarchy)
 

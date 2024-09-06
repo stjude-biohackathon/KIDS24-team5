@@ -3,10 +3,10 @@ import { Ollama } from 'ollama'
 const llmLoading = new Event('llmLoading')
 const llmLoaded = new Event('llmLoaded')
 
-//const IP = '40.124.104.197'
-//const PORT = 80
-const PORT = 11434
-const IP = 'localhost'
+const IP = '40.124.104.197'
+const PORT = 80
+//const PORT = 11434
+//const IP = 'localhost'
 const MODEL = 'llama3.1'
 
 const ollama = new Ollama({ host: 'http://' + IP + ':' + PORT })
