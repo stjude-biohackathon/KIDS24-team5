@@ -15,6 +15,12 @@ export const useManuscriptStore = defineStore('manuscript', {
         section.suggestions = suggestions
       }
     },
+    updateSectionConnectivity(heading, suggestions) {
+      const section = this.hierarchy.find((section) => section.heading === heading)
+      if (section) {
+        section.paragraph_connectivity_suggestions = suggestions
+      }
+    },
     updateParagraphSuggestions(heading, suggestions) {
       const section = this.hierarchy.find((section) => section.heading === heading)
       if (section) {
