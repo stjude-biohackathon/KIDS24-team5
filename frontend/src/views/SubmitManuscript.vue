@@ -1,17 +1,16 @@
-
 <template>
   <nav aria-label="steps">
     <ul class="nav-steps">
-      <li :class="{ 'current': isActive('/submit-ms/') }">
+      <li :class="{ current: isActive('/submit-ms/') }">
         <RouterLink to="/submit-ms/" exact>1. Submit</RouterLink>
       </li>
-      <li :class="{ 'current': isActive('/submit-ms/2-outline') }">
+      <li :class="{ current: isActive('/submit-ms/2-outline') }">
         <RouterLink to="/submit-ms/2-outline" exact>2. Outline</RouterLink>
       </li>
-      <li :class="{ 'current': isActive('/submit-ms/3-introduction') }">
-        <RouterLink to="/submit-ms/3-introduction" exact>3. Introduction</RouterLink>
+      <li :class="{ current: isActive('/submit-ms/3-intro') }">
+        <RouterLink to="/submit-ms/3-intro" exact>3. Introduction</RouterLink>
       </li>
-      <li :class="{ 'current': isActive('/submit-ms/4-discussion') }">
+      <li :class="{ current: isActive('/submit-ms/4-discussion') }">
         <RouterLink to="/submit-ms/4-discussion" exact>4. Discussion</RouterLink>
       </li>
     </ul>
@@ -26,6 +25,7 @@ const route = useRoute()
 
 // Helper function to check if the current route is active
 function isActive(path: string) {
+  console.log(path, route.path)
   return route.path === path
 }
 </script>

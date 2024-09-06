@@ -27,6 +27,16 @@ const router = createRouter({
           name: '2-outline',
           path: '2-outline', // Adjusted path
           component: () => import('../views/steps/step2-outline.vue')
+        },
+        {
+          name: '3-intro',
+          path: '3-intro', // Adjusted path
+          component: () => import('../views/steps/step3-intro.vue')
+        },
+        {
+          name: '4-discussion',
+          path: '4-discussion', // Adjusted path
+          component: () => import('../views/steps/step4-discussion.vue')
         }
       ]
     }

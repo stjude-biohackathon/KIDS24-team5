@@ -48,11 +48,8 @@
       </div>
     </div>
     <div class="pagination-buttons mt-4">
-      <a href="#" class="btn btn-secondary previous">Previous</a>
-      <button class="btn btn-secondary" @click="goToNextPage">
-        Next
-        <i class="bi bi-arrow-right"></i>
-      </button>
+      <RouterLink to="/submit-ms/" class="btn btn-primary previous"> Previous</RouterLink>
+      <RouterLink to="/submit-ms/3-intro" class="btn btn-primary next"> Next</RouterLink>
     </div>
   </div>
 </template>
