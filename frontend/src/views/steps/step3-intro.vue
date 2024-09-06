@@ -66,9 +66,13 @@
       </button>
     </div>
     <div class="pagination-buttons mt-4">
-      <RouterLink to="/submit-ms/2-outline" class="btn btn-primary previous"> Previous</RouterLink>
-      <RouterLink to="/submit-ms/4-discussion" class="btn btn-primary next"> Next</RouterLink>
-    </div>
+        <RouterLink to="/submit-ms/2-outline" class="btn pagination-button previous">
+      Previous
+    </RouterLink>
+    <RouterLink to="/submit-ms/4-discussion" class="btn pagination-button next">
+      Next
+    </RouterLink>
+  </div>
   </div>
 </template>
 
@@ -77,7 +81,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useManuscriptStore } from '@/stores/manuscript'
 import { prompts } from '@/lib/prompts'
 import submitChat from '@/lib/ollama-client'
-import getDistances from '@/lib/ollama-embeddings'
+// import getDistances from '@/lib/ollama-embeddings'
 
 const manuscriptStore = useManuscriptStore()
 const hierarchy = computed(() => manuscriptStore.hierarchy)
@@ -91,15 +95,15 @@ let paragraph_suggestions = introduction.paragraph_suggestions || []
 let score_prompts = prompts.filter((prompt) => prompt.tag === 'score')
 
 // combine all paragraphs into one intro paragraph
-let full_intro_paragraph = intro_paragraphs.join(' ')
+// let full_intro_paragraph = intro_paragraphs.join(' ')
 
-for (let index = 0; index < intro_paragraphs.length; index++) {
-  let paragraph = intro_paragraphs[index]
-  let sentences = paragraph.split('. ').filter((sentence) => sentence.length > 30)
-  getDistances(sentences).then((response) => {
-    introduction.paragraph_connectivity_suggestions[index] = response
-  })
-}
+// for (let index = 0; index < intro_paragraphs.length; index++) {
+//   let paragraph = intro_paragraphs[index]
+//   let sentences = paragraph.split('. ').filter((sentence) => sentence.length > 30)
+//   getDistances(sentences).then((response) => {
+//     introduction.paragraph_connectivity_suggestions[index] = response
+//   })
+// }
 // let paragraph1 = intro_paragraphs[0]
 // // find sentences in paragraph1
 // let sentences_paragraph1 = paragraph1.split('. ').filter((sentence) => sentence.length > 30)
@@ -142,5 +146,30 @@ onMounted(() => {
 <style>
 .card {
   width: 70%;
+}
+.pagination-buttons {
+  display: flex;
+  justify-content: space-between; /* Distribute space between buttons */
+}
+.pagination-button {
+  background-color: #6c757d; /* Gray background */
+  color: white; /* White text color */
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.pagination-button:hover {
+  background-color: #5a6268; /* Slightly darker gray on hover */
+  transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+.pagination-button i {
+  margin-left: 8px; /* Space between text and icon */
 }
 </style>
