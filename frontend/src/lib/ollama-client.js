@@ -3,8 +3,10 @@ import { Ollama } from 'ollama'
 const llmLoading = new Event('llmLoading')
 const llmLoaded = new Event('llmLoaded')
 
-const IP = '40.124.104.197'
-const PORT = 80
+//const IP = '40.124.104.197'
+//const PORT = 80
+const PORT = 11434
+const IP = 'localhost'
 const MODEL = 'llama3.1'
 
 const ollama = new Ollama({ host: 'http://' + IP + ':' + PORT })
@@ -15,8 +17,8 @@ const submitChat = async (prompt, system, context) => {
   window.dispatchEvent(llmLoading)
   const response = await ollama.generate({
     model: MODEL,
-    prompt:  system + prompt,
-    system: 'given the following context: ```' + context + '``` ',
+    prompt: prompt + system,
+    system: ' Given the following context: ```' + context + '``` ',
     stream: false
   })
   window.dispatchEvent(llmLoaded)

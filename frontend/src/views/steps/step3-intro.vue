@@ -150,18 +150,16 @@ onMounted(async () => {
 
 async function fillFullIntroSuggestions() {
   // also get the entire intro rating.
-  let introductionPrompt = `The given context contains the introduction section of manuscript. Critically review each sentence.
+  let introductionPrompt = `The given context contains the introduction section of manuscript. Critically review each sentence. Now output a JSON array that contains any sentence that you think is a low rating and include your suggestion in the output.
 
-Now highlight all the sentences which you have rated low and suggest changes for all these sentences to improve the ratings. If we can shift these sentences to other sections of the manuscript which include: Abstract, Results, Discussion and Data & methods, then please suggest too.`
+Output your answer in a JSON format that contains an array of the low rated sentences that follow the scehma: [{"sentence": string, "suggestion": string}]. Limit your output to 1 sentences.
 
-  let system_prompt = `Output your answer in a JSON format that contains an array of the low rated sentences that follow the scehma: [{sentence: string, rating: integer, suggestion: string}]
-`
+Respond only with valid JSON. Do not write an introduction or summary. Do not use markdown or any other formatting.`
 
-  await submitChat(introductionPrompt, system_prompt, full_intro_paragraph).then((response) => {
+  await submitChat(introductionPrompt, '', full_intro_paragraph).then((response) => {
     // Update the paragraph_suggestions in the store
     console.log('full intro suggestions', JSON.parse(response))
-
-    //manuscriptStore.updateSectionSuggestions('Introduction', JSON.parse(response));
+    manuscriptStore.updateSectionSuggestions('Introduction', JSON.parse(response))
   })
 }
 </script>
