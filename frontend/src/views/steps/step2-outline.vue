@@ -1,39 +1,69 @@
 <template>
   <div class="container mt-4">
     <h1>Outline</h1>
-    <ul class="list-group">
-      <li
-        class="list-group-item d-flex justify-content-between align-items-center"
-        v-for="heading in requiredHeadings"
-        :key="heading"
-      >
-        {{ heading }}
-        <span>
-          <i v-if="isHeadingPresent(heading)" class="bi bi-check-circle-fill text-success"></i>
-          <i v-else class="bi bi-x-circle-fill text-danger"></i>
-        </span>
-      </li>
-    </ul>
-    <div class="mt-4">
-      <h2>Order Check</h2>
-      <p v-if="isOrderCorrect" class="text-success">
-        <i class="bi bi-check-circle-fill"></i> The order is correct.
-      </p>
-      <p v-else class="text-danger"><i class="bi bi-x-circle-fill"></i> The order is incorrect.</p>
+    <div class="table-container">
+      <div class="table-wrapper">
+        <table class="table table-bordered table-light">
+          <thead>
+            <tr>
+              <th>Heading</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="heading in requiredHeadings" :key="heading">
+              <td>{{ heading }}</td>
+              <td>
+                <span>
+                  <i v-if="isHeadingPresent(heading)" class="bi bi-check-circle-fill text-success"></i>
+                  <i v-else class="bi bi-x-circle-fill text-danger"></i>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrapper">
+        <table class="table table-bordered table-light">
+          <thead>
+            <tr>
+              <th>Check</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Order Check</td>
+              <td>
+                <p v-if="isOrderCorrect" class="text-success">
+                  <i class="bi bi-check-circle-fill"></i> The order is correct.
+                </p>
+                <p v-else class="text-danger">
+                  <i class="bi bi-x-circle-fill"></i> The order is incorrect.
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="pagination-buttons mt-4">
-      <a href="" class="btn btn-primary previous"> Previous</a>
-      <a href="" class="btn btn-primary next"> Next</a>
+      <a href="#" class="btn btn-secondary previous">Previous</a>
+      <button class="btn btn-secondary" @click="goToNextPage">
+        Next
+        <i class="bi bi-arrow-right"></i>
+      </button>
     </div>
   </div>
-
 </template>
 
 <script setup>
 import { computed } from 'vue'
 import { useManuscriptStore } from '@/stores/manuscript'
+import { useRouter } from 'vue-router'
 
 const manuscriptStore = useManuscriptStore()
+const router = useRouter()
 const hierarchy = computed(() => manuscriptStore.hierarchy)
 
 const requiredHeadings = ['Abstract', 'Introduction', 'Results', 'Discussion', 'Data & Methods']
@@ -47,29 +77,69 @@ const isOrderCorrect = computed(() => {
   return JSON.stringify(headings) === JSON.stringify(requiredHeadings)
 })
 
-import { prompts } from '@/lib/prompts'
-import submitChat from '@/lib/ollama-client'
-
-  let intro_paragraphs = hierarchy.value.find((section) => section.heading === 'Introduction')?.paragraphs
-
-  console.log(intro_paragraphs)
-  let score_prompts = prompts.filter((prompt) => prompt.tag === 'score')
-
-  // combine all paragraphs into one intro paragraph
-  let intro_paragraph = intro_paragraphs.join(' ')
-
-   for (let index = 0; index < intro_paragraphs.length; index++) {
-      const prompt = score_prompts[index]
-      const paragraph = intro_paragraphs[index]
-        let system_prompt = prompt.system_prompt
-        let user_prompt = prompt.prompt + '```' + paragraph + '```'
-        submitChat(user_prompt, system_prompt, intro_paragraph).then((response) => {
-          console.log('question: ', prompt.prompt)
-          console.log(response)
-        })
-      }
+const goToNextPage = () => {
+  router.push('/submit-ms/3-intro') // Navigate to the next page
+}
 </script>
 
-<style>
-/* Add any additional styling here */
+<style scoped>
+.table-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-wrapper {
+  flex: 1;
+  margin-right: 10px; /* Space between tables */
+}
+
+.table-wrapper:last-child {
+  margin-right: 0;
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border: 1px solid #e0e0e0; /* Light grey border */
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table thead th {
+  background-color: #f8f9fa; /* Very light grey */
+  color: #333;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light grey for alternating rows */
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White background for rows */
+}
+
+.text-success {
+  color: #28a745; /* Green for success */
+}
+
+.text-danger {
+  color: #dc3545; /* Red for error */
+}
+
+.pagination-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Subtle grey */
+  border: none;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268; /* Darker grey on hover */
+}
 </style>

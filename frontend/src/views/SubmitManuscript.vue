@@ -91,10 +91,10 @@ function isActive(path: string) {
 
 /* Hover effect on inactive steps */
 .nav-steps li:not(.current):hover {
-  background-color: #0259da; /* Darker blue on hover */
+  background-color: #2a02da; /* Darker blue on hover */
 }
 
 .nav-steps li:not(.current):hover::after {
-  border-left-color: #0259da; /* Arrow color on hover */
+  border-left-color: #2a02da; /* Arrow color on hover */
 }
 </style>
