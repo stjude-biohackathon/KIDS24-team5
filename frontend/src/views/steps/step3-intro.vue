@@ -2,9 +2,13 @@
   <div class="container mt-4">
     <h1 class="text-center">Introduction <br /></h1>
     <h4 class="text-center">
-      (paragraph {{ currentSlide + 1 }} out of {{ intro_paragraphs.length }})
-    </h4>
-    <div
+      <template v-if="currentSlide >= intro_paragraphs.length">
+        Overall review
+      </template>
+      <template v-else>
+        (paragraph {{ currentSlide + 1 }} out of {{ intro_paragraphs.length }})
+      </template>
+    </h4>    <div
       id="introCarousel"
       class="carousel carousel-dark slide"
       data-bs-interval="false"
@@ -56,10 +60,6 @@
                 <p class="card-text">
                   <div v-html="full_intro_paragraph_highlighted">
                   </div>
-
-                  <pre>
-                    {{ introduction.suggestions }}
-                  </pre>
                 </p>
               </div>
             </div>
