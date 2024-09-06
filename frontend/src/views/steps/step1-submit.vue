@@ -79,7 +79,11 @@ function submitMs() {
           // parap1 suggestion
           // para 2 suggestions
         ],
-        suggestions: []
+        suggestions: [],
+        paragraph_connectivity_suggestions: [
+          //para1 connectivity
+          //para2 connectivity
+        ]
       }
       hierarchy.push(currentHeading)
     } else if ((token.type === 'paragraph' || token.type == 'heading') && currentHeading) {

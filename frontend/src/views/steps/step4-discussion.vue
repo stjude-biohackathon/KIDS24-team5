@@ -1,69 +1,19 @@
 <template>
   <div class="container mt-4">
-    <h1 class="text-center">Introduction <br /></h1>
-    <h3 class="text-center">
-      paragraph {{ currentSlide + 1 }} out of {{ intro_paragraphs.length }}
-    </h3>
-    <div
-      id="introCarousel"
-      class="carousel carousel-dark slide"
-      data-bs-ride="carousel"
-      @slide.bs.carousel="updateCurrentSlide"
-    >
-      <div class="carousel-inner">
-        <div
-          v-for="(paragraph, index) in intro_paragraphs"
-          :key="index"
-          :class="['carousel-item', { active: index === 0 }]"
-        >
-          <div class="d-flex justify-content-center">
-            <div class="card w-70 p-3 py-1">
-              <div class="card-body pb-0">
-                <p class="card-text">
-                  {{ paragraph }}
-                </p>
-                <div class="mt-3">
-									<p class="mt-2 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-										<div class="d-flex align-items-center mb-2">
-											<i class="bi bi-person-circle me-2" style="font-size: 1.5rem;"></i>
-											<span>Reviewer #3</span>
-										</div>
-										<span v-for="n in 5" :key="n" class="me-1">
-											<i
-												:class="[
-													'bi',
-													n <= paragraph_suggestions[index]?.score
-														? 'bi-star-fill text-warning'
-														: 'bi-star text-muted'
-												]"
-											></i>
-										</span>
-										{{ paragraph_suggestions[index]?.comment }}
-									</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <h1 class="text-center">Discussion <br /></h1>
+    <div class="card w-70 p-3 py-1">
+      <div class="card-body pb-0">
+        <p class="card-text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita,
+          consectetur quo optio quaerat ratione minus, deleniti laborum beatae
+          doloremque eos animi repudiandae officiis adipisci natus impedit nihil
+          dicta sed corrupti!  
+
+          <p class="mark_yellow">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum corporis distinctio qui hic unde quibusdam ad, accusamus laudantium iure cum, omnis iste voluptatibus non aperiam facere quo veniam magni voluptatem?
+          </p>
+        </p>
       </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#introCarousel"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#introCarousel"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
     </div>
     <div class="pagination-buttons mt-4">
       <RouterLink to="/submit-ms/2-outline" class="btn btn-primary previous"> Previous</RouterLink>
@@ -114,15 +64,30 @@ const updateCurrentSlide = (event) => {
 
 // add onMounted
 onMounted(() => {
-const myCarousel = document.getElementById('introCarousel')
-myCarousel.addEventListener('slide.bs.carousel', event => {
-	updateCurrentSlide(event);
-})
+  const myCarousel = document.getElementById('introCarousel')
+  myCarousel.addEventListener('slide.bs.carousel', (event) => {
+    updateCurrentSlide(event)
+  })
 })
 </script>
 
 <style>
 .card {
   width: 70%;
+}
+
+.mark_yello {
+  margin: 0 -0.4em;
+  padding: 0.1em 0.4em;
+  border-radius: 0.8em 0.3em;
+  background: transparent;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 225, 0, 0.1),
+    rgba(255, 225, 0, 0.7) 4%,
+    rgba(255, 225, 0, 0.3)
+  );
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 </style>
