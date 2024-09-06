@@ -7,7 +7,7 @@
     <div
       id="introCarousel"
       class="carousel carousel-dark slide"
-      data-bs-ride="carousel"
+      data-bs-interval="false"
       @slide.bs.carousel="updateCurrentSlide"
     >
       <div class="carousel-inner">
@@ -45,7 +45,28 @@
             </div>
           </div>
         </div>
+
+        <div
+          :key="9"
+          :class="['carousel-item']"
+        >
+          <div class="d-flex justify-content-center">
+            <div class="card w-70 p-3 py-1">
+              <div class="card-body pb-0">
+                <p class="card-text">
+                  <div v-html="full_intro_paragraph_highlighted">
+                  </div>
+
+                  <pre>
+                    {{ introduction.suggestions }}
+                  </pre>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <button
         class="carousel-control-prev"
         type="button"
@@ -146,19 +167,34 @@ onMounted(async () => {
   await fillFullIntroSuggestions()
 })
 
+const full_intro_paragraph_highlighted = computed(() => {
+  let suggestions = introduction.suggestions
+  let highlighted = full_intro_paragraph
+  suggestions.forEach((suggestion) => {
+    highlighted = highlighted.replace(
+      suggestion.sentence,
+      `<div class="mark_yellow" data-bs-toggle="tooltip" title="${suggestion.suggestion}">${suggestion.sentence}</div>`
+    )
+  })
+  return highlighted
+})
+
+
 async function fillFullIntroSuggestions() {
   // also get the entire intro rating.
   let introductionPrompt = `The given context contains the introduction section of manuscript. Critically review each sentence. Now output a JSON array that contains any sentence that you think is a low rating and include your suggestion in the output.
 
-Output your answer in a JSON format that contains an array of the low rated sentences that follow the scehma: [{"sentence": string, "suggestion": string}]. Limit your output to 1 sentences.
+Output your answer in a JSON format that contains an array of the low rated sentences that follow the scehma: [{"sentence": string, "suggestion": string}]. Limit your output to 3 sentences.
 
 Respond only with valid JSON. Do not write an introduction or summary. Do not use markdown or any other formatting.`
 
+/*
   await submitChat(introductionPrompt, '', full_intro_paragraph).then((response) => {
     // Update the paragraph_suggestions in the store
     console.log('full intro suggestions', JSON.parse(response))
     manuscriptStore.updateSectionSuggestions('Introduction', JSON.parse(response))
   })
+    */
 }
 </script>
 
@@ -192,5 +228,21 @@ Respond only with valid JSON. Do not write an introduction or summary. Do not us
 
 .pagination-button i {
   margin-left: 8px; /* Space between text and icon */
+}
+
+.mark_yellow {
+  margin: 0 -0.4em;
+  padding: 0.1em 0.4em;
+  border-radius: 0.8em 0.3em;
+  background: transparent;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 225, 0, 0.1),
+    rgba(255, 225, 0, 0.7) 4%,
+    rgba(255, 225, 0, 0.3)
+  );
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  display:inline;
 }
 </style>

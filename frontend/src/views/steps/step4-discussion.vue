@@ -76,7 +76,7 @@ onMounted(() => {
   width: 70%;
 }
 
-.mark_yello {
+.mark_yellow {
   margin: 0 -0.4em;
   padding: 0.1em 0.4em;
   border-radius: 0.8em 0.3em;
