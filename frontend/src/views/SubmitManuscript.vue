@@ -25,7 +25,6 @@ const route = useRoute()
 
 // Helper function to check if the current route is active
 function isActive(path: string) {
-  console.log(path, route.path)
   return route.path === path
 }
 </script>
