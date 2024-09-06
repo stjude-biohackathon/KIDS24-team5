@@ -9,16 +9,18 @@ const MODEL = 'llama3.1'
 
 const ollama = new Ollama({ host: 'http://' + IP + ':' + PORT })
 
-const submitChat = async (prompt) => {
+const submitChat = async (prompt, system) => {
   // fire an event to tell everyone that
   // we are starting to chat with the model
   window.dispatchEvent(llmLoading)
-  const response = await ollama.chat({
+  const response = await ollama.generate({
     model: MODEL,
-    messages: [{ role: 'user', content: prompt }]
+    prompt: prompt,
+    system: system,
+    stream: false
   })
   window.dispatchEvent(llmLoaded)
-  return response.message.content
+  return response.response
 }
 
 export default submitChat

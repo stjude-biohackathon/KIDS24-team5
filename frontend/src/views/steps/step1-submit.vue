@@ -79,7 +79,7 @@ function submitMs() {
 
   // set the store
   updateHierarchy(hierarchy)
-  console.log('hierarchy', hierarchy)
+  // console.log('hierarchy', hierarchy)
 
   // go to the next page
   router.push('/submit-ms/2-outline')
