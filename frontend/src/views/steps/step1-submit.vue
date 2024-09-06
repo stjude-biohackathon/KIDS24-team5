@@ -3,15 +3,15 @@
     <div class="col-9">
       <div class="mt-3 p-6 border border-2 rounded-4">
         <div class="m-4">
-          <div class="fs-2">Paste your manuscript</div>
+          <div class="fs-2 text-gray">Paste your manuscript</div>
           <editor-content :editor="editor" v-model="contents" />
         </div>
       </div>
     </div>
     <div class="col-3">
-      <div class="mt-3 p-6 border border-2 rounded-4" style="position: fixed">
+      <div class="mt-3 p-6  rounded-4" style="position: fixed">
         <div class="m-4">
-          <button class="btn btn-primary fs-3" @click="submitMs">
+          <button class="btn btn-primary" @click="submitMs">
             Next
             <i class="bi bi-arrow-right"></i>
           </button>
@@ -105,4 +105,31 @@ function submitMs() {
 div.tiptap {
   min-height: 400px;
 }
+
+.text-gray {
+  color: #6c757d; /* Gray color for text */
+}
+
+
+.next-button {
+  display: flex;
+  align-items: center;
+  background-color: #6c757d; /* gray background */
+  border: none;
+  border-radius: 4px; /* Slightly rounded corners */
+  padding: 8px 16px;
+  font-size: 1rem;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.next-button:hover {
+  background-color: #6c757d; /* Darker gray on hover */
+}
+
+.next-button i {
+  margin-left: 8px; /* Space between text and icon */
+}
+
+
 </style>

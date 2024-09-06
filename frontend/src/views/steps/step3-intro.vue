@@ -77,6 +77,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useManuscriptStore } from '@/stores/manuscript'
 import { prompts } from '@/lib/prompts'
 import submitChat from '@/lib/ollama-client'
+import getDistances from '@/lib/ollama-embeddings'
 
 const manuscriptStore = useManuscriptStore()
 const hierarchy = computed(() => manuscriptStore.hierarchy)
@@ -91,6 +92,23 @@ let score_prompts = prompts.filter((prompt) => prompt.tag === 'score')
 
 // combine all paragraphs into one intro paragraph
 let full_intro_paragraph = intro_paragraphs.join(' ')
+
+for (let index = 0; index < intro_paragraphs.length; index++) {
+  let paragraph = intro_paragraphs[index]
+  let sentences = paragraph.split('. ').filter((sentence) => sentence.length > 30)
+  getDistances(sentences).then((response) => {
+    introduction.paragraph_connectivity_suggestions[index] = response
+  })
+}
+// let paragraph1 = intro_paragraphs[0]
+// // find sentences in paragraph1
+// let sentences_paragraph1 = paragraph1.split('. ').filter((sentence) => sentence.length > 30)
+
+//   getDistances(sentences_paragraph1).then((response) => {
+//     // console.log('sentence: ', sentences_paragraph1)
+//     console.log(response)
+//     introduction.connectivity_scores[0] = response
+// })
 
 for (let index = 0; index < intro_paragraphs.length; index++) {
   const prompt = score_prompts[index]

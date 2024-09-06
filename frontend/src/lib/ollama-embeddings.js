@@ -21,14 +21,21 @@ const getDistances = async (sentences) => {
   window.dispatchEvent(llmLoaded)
   const embeddings = response.embeddings
 
-  const distances = []
+  const distances_ = []
   // Calculate cosine similarity subsequnt pairs of sentences
   for (let i = 0; i < embeddings.length - 1; i++) {
     const distance = cosinesim(embeddings[i], embeddings[i + 1])
-    distances.push(distance)
+    distances_.push(distance)
   }
 
-  // return format {distances: [sentences: [sentence1, sentence2], distances: [distance1]]}
+  // convert into this json format {distances: [sentences: [sentence1, sentence2], distances: [distance1]]}
+  const distances = []
+  for (let i = 0; i < distances_.length; i++) {
+    distances[i] = {
+      sentences: [sentences[i], sentences[i + 1]],
+      distance: distances_[i]
+    }
+  }
   return distances
 }
 
