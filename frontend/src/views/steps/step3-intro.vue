@@ -53,6 +53,7 @@
         <div
           :key="9"
           :class="['carousel-item']"
+          v-if="loaded"
         >
           <div class="d-flex justify-content-center">
             <div class="card w-70 p-3 py-1">
@@ -139,11 +140,11 @@ for (let index = 0; index < intro_paragraphs.length; index++) {
   const paragraph = intro_paragraphs[index]
   let system_prompt = prompt.system_prompt
   let user_prompt = prompt.prompt + '```' + paragraph + '```'
-  /*submitChat(user_prompt, system_prompt, full_intro_paragraph).then((response) => {
+  submitChat(user_prompt, system_prompt, full_intro_paragraph).then((response) => {
     // Update the paragraph_suggestions in the store
     introduction.paragraph_suggestions[index] = JSON.parse(response)
     manuscriptStore.updateParagraphSuggestions('Introduction', introduction.paragraph_suggestions)
-  })*/
+  })
 }
 
 // also get the entire intro rating.
@@ -167,6 +168,8 @@ onMounted(async () => {
   await fillFullIntroSuggestions()
 })
 
+const loaded = ref(false);
+
 const full_intro_paragraph_highlighted = computed(() => {
   let suggestions = introduction.suggestions
   let highlighted = full_intro_paragraph
@@ -188,13 +191,11 @@ Output your answer in a JSON format that contains an array of the low rated sent
 
 Respond only with valid JSON. Do not write an introduction or summary. Do not use markdown or any other formatting.`
 
-/*
   await submitChat(introductionPrompt, '', full_intro_paragraph).then((response) => {
     // Update the paragraph_suggestions in the store
-    console.log('full intro suggestions', JSON.parse(response))
     manuscriptStore.updateSectionSuggestions('Introduction', JSON.parse(response))
+    loaded.value = true;
   })
-    */
 }
 </script>
 
