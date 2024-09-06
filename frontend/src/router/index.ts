@@ -37,6 +37,11 @@ const router = createRouter({
           name: '4-discussion',
           path: '4-discussion', // Adjusted path
           component: () => import('../views/steps/step4-discussion.vue')
+        },
+        {
+          name: '5-connectivity',
+          path: '5-connectivity', // Adjusted path
+          component: () => import('../views/steps/step5-connectivity.vue')
         }
       ]
     }
