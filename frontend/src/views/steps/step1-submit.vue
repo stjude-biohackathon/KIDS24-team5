@@ -69,7 +69,18 @@ function submitMs() {
   for (const token of tokens) {
     if (token.type === 'heading' && token.depth == 1) {
       // Create a new heading object
-      currentHeading = { heading: token.text, paragraphs: [] }
+      currentHeading = {
+        heading: token.text,
+        paragraphs: [
+          // para1,
+          // para2
+        ],
+        paragraph_suggestions: [
+          // parap1 suggestion
+          // para 2 suggestions
+        ],
+        suggestions: []
+      }
       hierarchy.push(currentHeading)
     } else if ((token.type === 'paragraph' || token.type == 'heading') && currentHeading) {
       // Add paragraph to the current heading

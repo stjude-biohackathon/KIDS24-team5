@@ -20,10 +20,9 @@ onMounted(() => {
 <template>
   <header>
     <div v-if="loading" class="backdrop">
-      <div class="spinner-container">
-        <div class="spinner-grow bg-primary" style="width: 6rem; height: 6rem" role="status">
-          <span class="d-none">Loading...</span>
-        </div>
+      <div class="spinner-container d-flex flex-column align-items-center">
+        <div class="spinner-grow bg-primary" style="width: 6rem; height: 6rem" role="status"></div>
+        <div class="fs-1 mt-3">Asking reviewer #3...</div>
       </div>
     </div>
   </header>
