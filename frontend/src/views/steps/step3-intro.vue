@@ -1,9 +1,9 @@
 <template>
   <div class="container mt-4">
     <h1 class="text-center">Introduction <br /></h1>
-    <h3 class="text-center">
-      paragraph {{ currentSlide + 1 }} out of {{ intro_paragraphs.length }}
-    </h3>
+    <h4 class="text-center">
+      (paragraph {{ currentSlide + 1 }} out of {{ intro_paragraphs.length }})
+    </h4>
     <div
       id="introCarousel"
       class="carousel carousel-dark slide"
@@ -23,23 +23,23 @@
                   {{ paragraph }}
                 </p>
                 <div class="mt-3">
-									<p class="mt-2 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-										<div class="d-flex align-items-center mb-2">
-											<i class="bi bi-person-circle me-2" style="font-size: 1.5rem;"></i>
-											<span>Reviewer #3</span>
-										</div>
-										<span v-for="n in 5" :key="n" class="me-1">
-											<i
-												:class="[
-													'bi',
-													n <= paragraph_suggestions[index]?.score
-														? 'bi-star-fill text-warning'
-														: 'bi-star text-muted'
-												]"
-											></i>
-										</span>
-										{{ paragraph_suggestions[index]?.comment }}
-									</p>
+                  <div class="mt-2 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-person-circle me-2" style="font-size: 1.5rem"></i>
+                      <span>Reviewer #3</span>
+                    </div>
+                    <span v-for="n in 5" :key="n" class="me-1">
+                      <i
+                        :class="[
+                          'bi',
+                          n <= paragraph_suggestions[index]?.score
+                            ? 'bi-star-fill text-warning'
+                            : 'bi-star text-muted'
+                        ]"
+                      ></i>
+                    </span>
+                    {{ paragraph_suggestions[index]?.comment }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -114,10 +114,10 @@ const updateCurrentSlide = (event) => {
 
 // add onMounted
 onMounted(() => {
-const myCarousel = document.getElementById('introCarousel')
-myCarousel.addEventListener('slide.bs.carousel', event => {
-	updateCurrentSlide(event);
-})
+  const myCarousel = document.getElementById('introCarousel')
+  myCarousel.addEventListener('slide.bs.carousel', (event) => {
+    updateCurrentSlide(event)
+  })
 })
 </script>
 
