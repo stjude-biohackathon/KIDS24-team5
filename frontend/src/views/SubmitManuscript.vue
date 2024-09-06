@@ -13,6 +13,9 @@
       <li :class="{ current: isActive('/submit-ms/4-discussion') }">
         <RouterLink to="/submit-ms/4-discussion" exact>4. Discussion</RouterLink>
       </li>
+      <li :class="{ current: isActive('/submit-ms/5-connectivity') }">
+        <RouterLink to="/submit-ms/5-connectivity" exact>5. Connectivity</RouterLink>
+      </li>
     </ul>
   </nav>
   <RouterView />
