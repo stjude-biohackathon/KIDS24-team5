@@ -4,15 +4,21 @@ import { RouterLink, RouterView } from 'vue-router'
 
 // listen for the llmLoading event and show a spinner
 const loading = ref(false)
+const counter = ref(0)
 
 // add onMounting
 onMounted(() => {
   // add listen for window
   window.addEventListener('llmLoading', () => {
-    loading.value = true
+    counter.value++
+    if (counter.value > 0) loading.value = true
   })
   window.addEventListener('llmLoaded', () => {
-    loading.value = false
+    counter.value--
+    if (counter.value <= 0) {
+      loading.value = false
+      counter.value = 0
+    }
   })
 })
 </script>

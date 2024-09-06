@@ -66,13 +66,13 @@
       </button>
     </div>
     <div class="pagination-buttons mt-4">
-        <RouterLink to="/submit-ms/2-outline" class="btn pagination-button previous">
-      Previous
-    </RouterLink>
-    <RouterLink to="/submit-ms/4-discussion" class="btn pagination-button next">
-      Next
-    </RouterLink>
-  </div>
+      <RouterLink to="/submit-ms/2-outline" class="btn pagination-button previous">
+        Previous
+      </RouterLink>
+      <RouterLink to="/submit-ms/4-discussion" class="btn pagination-button next">
+        Next
+      </RouterLink>
+    </div>
   </div>
 </template>
 
@@ -87,7 +87,6 @@ const manuscriptStore = useManuscriptStore()
 const hierarchy = computed(() => manuscriptStore.hierarchy)
 
 let introduction = hierarchy.value.find((section) => section.heading === 'Introduction')
-console.log('found intro', introduction)
 
 let intro_paragraphs = introduction.paragraphs
 let paragraph_suggestions = introduction.paragraph_suggestions || []
@@ -95,7 +94,7 @@ let paragraph_suggestions = introduction.paragraph_suggestions || []
 let score_prompts = prompts.filter((prompt) => prompt.tag === 'score')
 
 // combine all paragraphs into one intro paragraph
-// let full_intro_paragraph = intro_paragraphs.join(' ')
+let full_intro_paragraph = intro_paragraphs.join(' ')
 
 // for (let index = 0; index < intro_paragraphs.length; index++) {
 //   let paragraph = intro_paragraphs[index]
@@ -119,11 +118,13 @@ for (let index = 0; index < intro_paragraphs.length; index++) {
   const paragraph = intro_paragraphs[index]
   let system_prompt = prompt.system_prompt
   let user_prompt = prompt.prompt + '```' + paragraph + '```'
+  /*
   submitChat(user_prompt, system_prompt, full_intro_paragraph).then((response) => {
     // Update the paragraph_suggestions in the store
     introduction.paragraph_suggestions[index] = JSON.parse(response)
     manuscriptStore.updateParagraphSuggestions('Introduction', introduction.paragraph_suggestions)
   })
+    */
 }
 
 // also get the entire intro rating.
@@ -137,12 +138,32 @@ const updateCurrentSlide = (event) => {
 }
 
 // add onMounted
-onMounted(() => {
+onMounted(async () => {
   const myCarousel = document.getElementById('introCarousel')
   myCarousel.addEventListener('slide.bs.carousel', (event) => {
     updateCurrentSlide(event)
   })
+
+  // this will get the overall suggestions
+  await fillFullIntroSuggestions()
 })
+
+async function fillFullIntroSuggestions() {
+  // also get the entire intro rating.
+  let introductionPrompt = `The given context contains the introduction section of manuscript. Critically review each sentence.
+
+Now highlight all the sentences which you have rated low and suggest changes for all these sentences to improve the ratings. If we can shift these sentences to other sections of the manuscript which include: Abstract, Results, Discussion and Data & methods, then please suggest too.`
+
+  let system_prompt = `Output your answer in a JSON format that contains an array of the low rated sentences that follow the scehma: [{sentence: string, rating: integer, suggestion: string}]
+`
+
+  await submitChat(introductionPrompt, system_prompt, full_intro_paragraph).then((response) => {
+    // Update the paragraph_suggestions in the store
+    console.log('full intro suggestions', JSON.parse(response))
+
+    //manuscriptStore.updateSectionSuggestions('Introduction', JSON.parse(response));
+  })
+}
 </script>
 
 <style>
@@ -163,7 +184,9 @@ onMounted(() => {
   text-align: center;
   display: inline-flex;
   align-items: center;
-  transition: background-color 0.3s, transform 0.3s;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
 }
 
 .pagination-button:hover {
