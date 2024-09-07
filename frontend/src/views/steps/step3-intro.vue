@@ -2,13 +2,14 @@
   <div class="container mt-4">
     <h1 class="text-center">Introduction <br /></h1>
     <h4 class="text-center">
-      <template v-if="currentSlide >= intro_paragraphs.length">
+      <template v-if="currentSlide >= introParagraphs.length">
         Overall review
       </template>
       <template v-else>
-        (paragraph {{ currentSlide + 1 }} out of {{ intro_paragraphs.length }})
+        (paragraph {{ currentSlide + 1 }} out of {{ introParagraphs.length }})
       </template>
-    </h4>    <div
+    </h4>
+    <div
       id="introCarousel"
       class="carousel carousel-dark slide"
       data-bs-interval="false"
@@ -16,7 +17,7 @@
     >
       <div class="carousel-inner">
         <div
-          v-for="(paragraph, index) in intro_paragraphs"
+          v-for="(paragraph, index) in introParagraphs"
           :key="index"
           :class="['carousel-item', { active: index === 0 }]"
         >
@@ -36,13 +37,13 @@
                       <i
                         :class="[
                           'bi',
-                          n <= paragraph_suggestions[index]?.score
+                          n <= paragraphSuggestions[index]?.score
                             ? 'bi-star-fill text-warning'
                             : 'bi-star text-muted'
                         ]"
                       ></i>
                     </span>
-                    {{ paragraph_suggestions[index]?.comment }}
+                    {{ paragraphSuggestions[index]?.comment }}
                   </div>
                 </div>
               </div>
@@ -59,7 +60,7 @@
             <div class="card w-70 p-3 py-1">
               <div class="card-body pb-0">
                 <p class="card-text">
-                  <div v-html="full_intro_paragraph_highlighted">
+                  <div v-html="fullIntroParagraphHighlighted">
                   </div>
                 </p>
               </div>
@@ -103,76 +104,59 @@ import { ref, computed, onMounted } from 'vue'
 import { useManuscriptStore } from '@/stores/manuscript'
 import { prompts } from '@/lib/prompts'
 import submitChat from '@/lib/ollama-client'
-// import getDistances from '@/lib/ollama-embeddings'
 
 const manuscriptStore = useManuscriptStore()
 const hierarchy = computed(() => manuscriptStore.hierarchy)
 
-let introduction = hierarchy.value.find((section) => section.heading === 'Introduction')
+const introduction = computed(() => hierarchy.value.find((section) => section.heading === 'Introduction'))
+const introParagraphs = computed(() => introduction.value.paragraphs)
+const paragraphSuggestions = computed(() => introduction.value.paragraph_suggestions || [])
+const scorePrompts = computed(() => prompts.filter((prompt) => prompt.tag === 'score'))
 
-let intro_paragraphs = introduction.paragraphs
-let paragraph_suggestions = introduction.paragraph_suggestions || []
+const fullIntroParagraph = computed(() => introParagraphs.value.join(' '))
 
-let score_prompts = prompts.filter((prompt) => prompt.tag === 'score')
 
-// combine all paragraphs into one intro paragraph
-let full_intro_paragraph = intro_paragraphs.join(' ')
+// Ensure paragraph_suggestions is initialized as an array
+if (!introduction.value.paragraph_suggestions) {
+  introduction.value.paragraph_suggestions = []
+}
 
-// for (let index = 0; index < intro_paragraphs.length; index++) {
-//   let paragraph = intro_paragraphs[index]
-//   let sentences = paragraph.split('. ').filter((sentence) => sentence.length > 30)
-//   getDistances(sentences).then((response) => {
-//     introduction.paragraph_connectivity_suggestions[index] = response
-//   })
-// }
-// let paragraph1 = intro_paragraphs[0]
-// // find sentences in paragraph1
-// let sentences_paragraph1 = paragraph1.split('. ').filter((sentence) => sentence.length > 30)
-
-//   getDistances(sentences_paragraph1).then((response) => {
-//     // console.log('sentence: ', sentences_paragraph1)
-//     console.log(response)
-//     introduction.connectivity_scores[0] = response
-// })
-
-for (let index = 0; index < intro_paragraphs.length; index++) {
-  const prompt = score_prompts[index]
-  const paragraph = intro_paragraphs[index]
+for (let index = 0; index < introParagraphs.value.length; index++) {
+  const prompt = scorePrompts.value[index]
+  const paragraph = introParagraphs.value[index]
   let system_prompt = prompt.system_prompt
   let user_prompt = prompt.prompt + '```' + paragraph + '```'
-  submitChat(user_prompt, system_prompt, full_intro_paragraph).then((response) => {
-    // Update the paragraph_suggestions in the store
-    introduction.paragraph_suggestions[index] = JSON.parse(response)
-    manuscriptStore.updateParagraphSuggestions('Introduction', introduction.paragraph_suggestions)
+  submitChat(user_prompt, system_prompt, fullIntroParagraph.value).then((response) => {
+        // Ensure the array is still defined before setting the value
+    if (!introduction.value.paragraph_suggestions) {
+      introduction.value.paragraph_suggestions = []
+    }
+
+    introduction.value.paragraph_suggestions[index] = JSON.parse(response)
+    manuscriptStore.updateParagraphSuggestions('Introduction', introduction.value.paragraph_suggestions)
   })
 }
 
-// also get the entire intro rating.
-
-// Track the current slide index
 const currentSlide = ref(0)
 
-// Update the current slide index when the carousel slides
 const updateCurrentSlide = (event) => {
   currentSlide.value = event.to
 }
 
-// add onMounted
 onMounted(async () => {
   const myCarousel = document.getElementById('introCarousel')
   myCarousel.addEventListener('slide.bs.carousel', (event) => {
     updateCurrentSlide(event)
   })
 
-  // this will get the overall suggestions
   await fillFullIntroSuggestions()
 })
 
-const loaded = ref(false);
+const loaded = ref(false)
 
-const full_intro_paragraph_highlighted = computed(() => {
-  let suggestions = introduction.suggestions
-  let highlighted = full_intro_paragraph
+const fullIntroParagraphHighlighted = computed(() => {
+  let suggestions = introduction.value.suggestions
+  let highlighted = fullIntroParagraph.value
   suggestions.forEach((suggestion) => {
     highlighted = highlighted.replace(
       suggestion.sentence,
@@ -182,19 +166,16 @@ const full_intro_paragraph_highlighted = computed(() => {
   return highlighted
 })
 
-
 async function fillFullIntroSuggestions() {
-  // also get the entire intro rating.
   let introductionPrompt = `The given context contains the introduction section of manuscript. Critically review each sentence. Now output a JSON array that contains any sentence that you think is a low rating and include your suggestion in the output.
 
-Output your answer in a JSON format that contains an array of the low rated sentences that follow the scehma: [{"sentence": string, "suggestion": string}]. Limit your output to 3 sentences.
+Output your answer in a JSON format that contains an array of the low rated sentences that follow the schema: [{"sentence": string, "suggestion": string}]. Limit your output to 3 sentences.
 
 Respond only with valid JSON. Do not write an introduction or summary. Do not use markdown or any other formatting.`
 
-  await submitChat(introductionPrompt, '', full_intro_paragraph).then((response) => {
-    // Update the paragraph_suggestions in the store
+  await submitChat(introductionPrompt, '', fullIntroParagraph.value).then((response) => {
     manuscriptStore.updateSectionSuggestions('Introduction', JSON.parse(response))
-    loaded.value = true;
+    loaded.value = true
   })
 }
 </script>
@@ -205,11 +186,11 @@ Respond only with valid JSON. Do not write an introduction or summary. Do not us
 }
 .pagination-buttons {
   display: flex;
-  justify-content: space-between; /* Distribute space between buttons */
+  justify-content: space-between;
 }
 .pagination-button {
-  background-color: #6c757d; /* Gray background */
-  color: white; /* White text color */
+  background-color: #6c757d;
+  color: white;
   border: none;
   border-radius: 4px;
   padding: 8px 16px;
@@ -217,18 +198,16 @@ Respond only with valid JSON. Do not write an introduction or summary. Do not us
   text-align: center;
   display: inline-flex;
   align-items: center;
-  transition:
-    background-color 0.3s,
-    transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .pagination-button:hover {
-  background-color: #5a6268; /* Slightly darker gray on hover */
-  transform: scale(1.05); /* Slightly scale up on hover */
+  background-color: #5a6268;
+  transform: scale(1.05);
 }
 
 .pagination-button i {
-  margin-left: 8px; /* Space between text and icon */
+  margin-left: 8px;
 }
 
 .mark_yellow {
@@ -244,6 +223,6 @@ Respond only with valid JSON. Do not write an introduction or summary. Do not us
   );
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  display:inline;
+  display: inline;
 }
 </style>
