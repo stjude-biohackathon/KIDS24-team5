@@ -29,9 +29,9 @@ AI-assisted Manuscript preperation tool
 
 # Can I use it?
 
-Yes, Will be available at St. Jude. Stay tuned!
+Yes, will be available at St. Jude. Stay tuned!
 
-# team
+# Team
 * Jaimin Patel <a href="https://linkedin.com//in/jaimin-patel-bioinfo/"><img src="https://img.shields.io/badge/-Jaimin%20Patel-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>
 * Aman Patel <a href="https://www.linkedin.com/in/amannpatel/"><img src="https://img.shields.io/badge/-Aman%20Patel-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>
 * Balint Meszaros <a href="https://www.linkedin.com/in/bálint-mészáros-a7764a97/"><img src="https://img.shields.io/badge/-Balint%20Meszaros-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>
