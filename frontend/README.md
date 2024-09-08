@@ -1,39 +1,35 @@
-# my-app
+# Reviewer 3
 
-This template should help get you started developing with Vue 3 in Vite.
+## Prerequisites
 
-## Recommended IDE Setup
+- **Node.js v18**: Download and install from [Node.js official website](https://nodejs.org/).
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Installation and Running the Vite Server
 
-## Type Support for `.vue` Imports in TS
+1. **Install dependencies**:
+   ```sh
+   npm install
+   ```
+2. **Run the Vite server**:
+   ```sh
+   npm run dev
+   ```
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Setting Up Ollama Server and Llama 3.1 Model
 
-## Customize configuration
+1. **Install Ollama server**:
+   Follow the instructions on the [Ollama GitHub page](https://github.com/ollama/ollama).
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+2. **Setup Llama 3.1 model**:
+   Download and configure the Llama 3.1 model as per the instructions provided in the Ollama documentation.
 
-## Project Setup
+Edit the src/lib/ollama-client.js file to set the IP & port of your ollama installation
 
-```sh
-npm install
+```javascript
+const PORT = 11434
+const IP = 'localhost'
 ```
 
-### Compile and Hot-Reload for Development
+## Additional Notes for Windows Users
 
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- It is recommended to use **WSL2** for a smoother experience. Follow the instructions on the [Microsoft WSL2 documentation](https://docs.microsoft.com/en-us/windows/wsl/install) to set it up.
